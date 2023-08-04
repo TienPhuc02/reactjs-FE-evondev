@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import PropTypes from "prop-types";
 
 const FormFinal = () => {
   return (
@@ -28,21 +29,12 @@ const FormFinal = () => {
           className="container-form p-10 w-full max-w-[500px] mx-auto"
           autoComplete="off"
         >
-          <div className="flex flex-col gap-2">
-            <label htmlFor="firstName" className="cursor-pointer">
-              Username
-            </label>
-            <Field
-              name="firstName"
-              type="text"
-              className="p-4 rounded-md border border-gray-100 mb-4 bg-white"
-              id="firstName"
-              placeholder="Enter Your firstName"
-            ></Field>
-            <div className="text-red-500 text-sm mb-4">
-              <ErrorMessage name="firstName"></ErrorMessage>
-            </div>
-          </div>
+          <MyInput
+            label="firstName"
+            name="firstName"
+            placeholder="Enter Your firstName"
+            id="firstName"
+          />
           <div className="flex flex-col gap-2">
             <label htmlFor="lastName" className="cursor-pointer mt-4">
               Last Name
@@ -131,5 +123,26 @@ const FormFinal = () => {
     </div>
   );
 };
-
+const MyInput = (props) => {
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor={props.id || props.name}>{props.label}</label>
+      <input
+        type="text"
+        className="p-4 rounded-md border border-gray-100 mb-4 bg-white"
+        placeholder={props.placeholder}
+        id={props.id}
+      ></input>
+      <div className="text-sm text-red-500 mb-4">
+        <ErrorMessage name={props.name}></ErrorMessage>
+      </div>
+    </div>
+  );
+};
+MyInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  id: PropTypes.string, // Make it optional
+};
 export default FormFinal;
