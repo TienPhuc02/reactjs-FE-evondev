@@ -44,9 +44,10 @@ const FormMik = () => {
             placeholder="Enter Your firstName"
             value={formik.values.firstName}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
-          {formik.errors.firstName ? (
-            <div className="text-sm text-red-500">
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <div className="text-sm mb-4 text-red-500">
               {formik.errors.firstName}
             </div>
           ) : null}
@@ -63,9 +64,10 @@ const FormMik = () => {
             placeholder="Enter Your lastName"
             value={formik.values.lastName}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
-          {formik.errors.lastName ? (
-            <div className="text-sm text-red-500">{formik.errors.lastName}</div>
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div className="text-sm mb-4 text-red-500">{formik.errors.lastName}</div>
           ) : null}
         </div>
         <button
