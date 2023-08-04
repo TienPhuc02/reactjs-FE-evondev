@@ -1,25 +1,33 @@
 import { useFormik } from "formik";
-const validate = (values) => {
-  const errors = {};
-  if (!values.firstName) {
-    errors.firstName = "Required";
-  } else if (values.firstName.length > 20) {
-    errors.firstName = "Must be  20 characters or less";
-  }
-  if (!values.lastName) {
-    errors.lastName = "Required";
-  } else if (values.lastName.length > 20) {
-    errors.lastName = "Must be  20 characters or less";
-  }
-  return errors;
-};
+import * as Yup from "yup";
+// const validate = (values) => {
+//   const errors = {};
+//   if (!values.firstName) {
+//     errors.firstName = "Required";
+//   } else if (values.firstName.length > 20) {
+//     errors.firstName = "Must be  20 characters or less";
+//   }
+//   if (!values.lastName) {
+//     errors.lastName = "Required";
+//   } else if (values.lastName.length > 20) {
+//     errors.lastName = "Must be  20 characters or less";
+//   }
+//   return errors;
+// };
 const FormMik = () => {
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
     },
-    validate,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .max(20, "Must be  20 characters or less")
+        .required("Required"),
+      lastName: Yup.string()
+        .max(10, "Must be  10 characters or less")
+        .required("Required"),
+    }),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -42,9 +50,10 @@ const FormMik = () => {
             className="p-4 rounded-md border border-gray-100 mb-4"
             id="firstName"
             placeholder="Enter Your firstName"
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            // value={formik.values.firstName}
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            {...formik.getFieldProps("firstName")}
           />
           {formik.touched.firstName && formik.errors.firstName ? (
             <div className="text-sm mb-4 text-red-500">
@@ -62,12 +71,15 @@ const FormMik = () => {
             className="p-4 rounded-md border border-gray-100 mb-4"
             id="lastName"
             placeholder="Enter Your lastName"
-            value={formik.values.lastName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            // value={formik.values.lastName}
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            {...formik.getFieldProps("lastName")}
           />
           {formik.touched.lastName && formik.errors.lastName ? (
-            <div className="text-sm mb-4 text-red-500">{formik.errors.lastName}</div>
+            <div className="text-sm mb-4 text-red-500">
+              {formik.errors.lastName}
+            </div>
           ) : null}
         </div>
         <button
