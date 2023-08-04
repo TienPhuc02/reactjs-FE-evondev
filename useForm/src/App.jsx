@@ -1,16 +1,9 @@
-
-
-// import Form2 from "./form/Form2";
-
-import FormMik from "./FormMik";
+import FormMikV2 from "./FormMikV2";
 
 const App = () => {
   return (
     <div>
-      {/* <Form /> */}
-      {/* <Form2 /> */}
-      {/* <MovieSearchApp /> */}
-      <FormMik/>
+      <FormMikV2 />
     </div>
   );
 };
