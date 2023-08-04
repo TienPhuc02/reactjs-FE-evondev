@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 
@@ -35,70 +35,37 @@ const FormFinal = () => {
             placeholder="Enter Your firstName"
             id="firstName"
           />
-          <div className="flex flex-col gap-2">
-            <label htmlFor="lastName" className="cursor-pointer mt-4">
-              Last Name
-            </label>
-            <Field
-              name="lastName"
-              type="text"
-              className="p-4 rounded-md border border-gray-100 mb-4 bg-white"
-              id="lastName"
-              placeholder="Enter Your lastName"
-            ></Field>
-            <div className="text-red-500 text-sm mb-4">
-              <ErrorMessage name="lastName"></ErrorMessage>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="cursor-pointer mt-4">
-              Email
-            </label>
-            <Field
-              name="email"
-              type="email"
-              className="p-4 rounded-md border border-gray-100 mb-4 bg-white"
-              id="email"
-              placeholder="Enter Your Email"
-            ></Field>
-            <div className="text-red-500 text-sm mb-4">
-              <ErrorMessage name="email"></ErrorMessage>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="intro" className="cursor-pointer mt-4">
-              Intro
-            </label>
-            <Field
-              name="intro"
-              type="text"
-              className="p-4 rounded-md border border-gray-100 mb-4 max-h-[150px] pb-[100px]  bg-white"
-              id="intro"
-              placeholder="Introduce yourself..."
-            ></Field>
-            <div className="text-red-500 text-sm mb-4">
-              <ErrorMessage name="intro"></ErrorMessage>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="intro" className="cursor-pointer mt-4">
-              Intro
-            </label>
-            <Field
-              name="job"
-              type="select"
-              className="p-4 rounded-md border border-gray-100 mb-4 pr-2  bg-white"
-              id="intro"
-              as="select"
-            >
-              <option value="frontend">FrontEnd Developer</option>
-              <option value="backend">Backend Developer</option>
-              <option value="fullstack">FullStack Developer</option>
-            </Field>
-            <div className="text-red-500 text-sm mb-4">
-              <ErrorMessage name="intro"></ErrorMessage>
-            </div>
-          </div>
+          <MyInput
+            label="lastName"
+            name="lastName"
+            placeholder="Enter Your lastName"
+            id="lastName"
+          />
+          <MyInput
+            label="Email"
+            name="email"
+            placeholder="Enter Your email"
+            id="email"
+          />
+          <MyInput
+            label="Intro"
+            name="intro"
+            placeholder="Enter Your intro"
+            id="intro"
+            className="p-4 rounded-md border bg-white border-gray-100 mb-4 max-h-[150px] pb-[100px] "
+          />
+          <MyInput
+            label="Your Job"
+            name="job"
+            placeholder="Enter Your job"
+            id="job"
+            type="select"
+            as="select"
+          >
+            <option value="frontend">FrontEnd Developer</option>
+            <option value="backend">BackEnd Developer</option>
+            <option value="fullstack">Fullstack Developer</option>
+          </MyInput>
           <div className="flex  items-start gap-2">
             <label htmlFor="intro" className="cursor-pointer mt-4"></label>
             <Field
@@ -124,25 +91,64 @@ const FormFinal = () => {
   );
 };
 const MyInput = (props) => {
+  const [field, meta] = useField(props);
+    console.log(field)
+  if (props.as === "select") {
+    return (
+      <div className="flex flex-col gap-2">
+        <label htmlFor={props.id || props.name}>{props.label}</label>
+        <select
+          className={
+            props.className
+              ? props.className
+              : "p-4 rounded-md border border-gray-100 mb-4 bg-white"
+          }
+          placeholder={props.placeholder}
+          id={props.id}
+          {...field}
+        >
+          {props.children}
+        </select>
+        {meta.touched && meta.error ? (
+          <div className="text-sm text-red-500 mb-4">
+            <div name={props.name}>{meta.error}</div>
+          </div>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <label htmlFor={props.id || props.name}>{props.label}</label>
       <input
-        type="text"
-        className="p-4 rounded-md border border-gray-100 mb-4 bg-white"
+        type={props.type}
+        className={
+          props.className
+            ? props.className
+            : "p-4 rounded-md border border-gray-100 mb-4 bg-white"
+        }
         placeholder={props.placeholder}
         id={props.id}
-      ></input>
-      <div className="text-sm text-red-500 mb-4">
-        <ErrorMessage name={props.name}></ErrorMessage>
-      </div>
+        {...field}
+      />
+      {meta.touched && meta.error ? (
+        <div className="text-sm text-red-500 mb-4">
+          <div name={props.name}>{meta.error}</div>
+        </div>
+      ) : null}
     </div>
   );
 };
+
 MyInput.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  as: PropTypes.oneOf(["input", "select"]),
+  className: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  id: PropTypes.string, // Make it optional
+  id: PropTypes.string,
+  children: PropTypes.node,
 };
 export default FormFinal;
