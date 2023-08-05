@@ -1,9 +1,9 @@
-import FormFinal from "./FormFinal";
+import SignUpFormHook from "./SignUpFormHook";
 
 const App = () => {
   return (
     <div>
-      <FormFinal />
+     <SignUpFormHook/>
     </div>
   );
 };
