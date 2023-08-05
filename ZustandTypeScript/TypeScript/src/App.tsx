@@ -24,6 +24,21 @@ const App = () => {
       date: "04/08/2022",
     },
   ];
+  //const obj:{}={}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const user: {
+    firstName: string;
+    lastName: string;
+    age: number;
+    isStudent: boolean;
+    school:string[]
+  } = {
+    firstName: "Do",
+    lastName: "Tien Phuc",
+    age: 21,
+    isStudent: true,
+    school:["BKHN","TV"]
+  };
   const displayReview = (
     totalReviews: number,
     name: string,
@@ -50,6 +65,7 @@ const App = () => {
             reviews[0].name,
             reviews[0].premiumUser
           )}
+          {user.}
         </div>
       </div>
     </div>
