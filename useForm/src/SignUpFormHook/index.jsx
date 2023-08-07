@@ -7,17 +7,21 @@ const schemaValidation = Yub.object({
     .max(5, "Must be 10 character or less"),
 });
 const SignUpFormHook = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schemaValidation),
   });
-  console.log("🚀 ~ file: index.jsx:4 ~ SignUpFormHook ~ errors:", errors);
-  const onSubmit = (values) => {
-    console.log(values);
-  };
+  const { isSubmitting, errors } = formState;
+  console.log(
+    "🚀 ~ file: index.jsx:14 ~ SignUpFormHook ~ isSubmitting:",
+    isSubmitting
+  );
+  function onSubmit() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 5000);
+    });
+  }
 
   return (
     <>
@@ -33,12 +37,6 @@ const SignUpFormHook = () => {
           <input
             type="text"
             {...register("firstName")}
-            // {...register("firstName", {
-            //   required: true,
-            //   maxLength: 10,
-            //   minLength: 2,
-            //   // pattern regex
-            // })}
             name="firstName"
             className="p-4 rounded-md border border-gray-100 mb-4"
             id="firstName"
@@ -82,10 +80,14 @@ const SignUpFormHook = () => {
           />
         </div>
         <button
-          type="submit"
-          className="w-full mx-auto max-w-[100px] text-center p-3 border bg-blue-500 text-white rounded-lg border-blue-500"
+          className="w-full mx-auto max-w-[200px] text-center p-3 border bg-blue-500 text-white rounded-lg border-blue-500"
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? (
+            <div className="w-10 h-10 border-4 border-white rounded-full animate-spin border-t-transparent"></div>
+          ) : (
+            "Submit"
+          )}
         </button>
       </form>
     </>
