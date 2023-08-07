@@ -9,19 +9,22 @@ const schemaValidation = Yub.object({
 const SignUpFormHook = () => {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(schemaValidation),
+    mode: "onChange",
   });
-  const { isSubmitting, errors } = formState;
+  const { isSubmitting, errors, isValid, isDirty, dirtyFields } = formState;
+  console.log(
+    "🚀 ~ file: index.jsx:16 ~ SignUpFormHook ~ dirtyFields:",
+    dirtyFields
+  ); //  object  các fields mình đã điền
+  console.log("🚀 ~ file: index.jsx:16 ~ SignUpFormHook ~ isDirty:", isDirty); // fields mình  điền vào
+  console.log("🚀 ~ file: index.jsx:15 ~ SignUpFormHook ~ isValid:", isValid);
   console.log(
     "🚀 ~ file: index.jsx:14 ~ SignUpFormHook ~ isSubmitting:",
     isSubmitting
   );
-  function onSubmit() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 5000);
-    });
-  }
+  const onSubmit = async (values) => {
+    console.log(values);
+  };
 
   return (
     <>
@@ -84,7 +87,7 @@ const SignUpFormHook = () => {
           disabled={isSubmitting}
         >
           {isSubmitting ? (
-            <div className="w-10 h-10 border-4 border-white rounded-full animate-spin border-t-transparent"></div>
+            <div className="w-5 h-5 border-4 mx-auto border-white rounded-full animate-spin border-t-transparent"></div>
           ) : (
             "Submit"
           )}
