@@ -7,7 +7,7 @@ const schemaValidation = Yub.object({
     .max(5, "Must be 10 character or less"),
 });
 const SignUpFormHook = () => {
-  const { register, handleSubmit, formState, watch } = useForm({
+  const { register, handleSubmit, formState, watch,reset,resetField } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
   });
@@ -19,7 +19,12 @@ const SignUpFormHook = () => {
   const { isSubmitting, errors } = formState;
 
   const onSubmit = async (values) => {
-    console.log(values);
+    reset({
+      firstName:"",
+      lastName:"",
+      email:""
+    })
+    resetField("firstName")
   };
 
   return (
@@ -77,21 +82,22 @@ const SignUpFormHook = () => {
             {...register("email")}
             placeholder="Enter Your email"
           />
-        </div>
-        <div className="flex items-start mb-2 flex-col gap-2">
-          <input type="checkbox" name="" id="" {...register("showAge")} />
-          {watchShowAge && (
-            <input
-              type="number"
-              name=""
-              placeholder="Please enter your age"
-              id=""
-            />
-          )}
+          <div className="flex items-start mb-2 flex-col gap-2">
+            <input type="checkbox" name="" id="" {...register("showAge")} />
+            {watchShowAge && (
+              <input
+                type="number"
+                name=""
+                placeholder="Please enter your age"
+                id=""
+              />
+            )}
+          </div>
         </div>
         <button
           className="w-full mx-auto max-w-[200px] text-center p-3 border bg-blue-500 text-white rounded-lg border-blue-500"
           disabled={isSubmitting}
+          type="submit"
         >
           {isSubmitting ? (
             <div className="w-5 h-5 border-4 mx-auto border-white rounded-full animate-spin border-t-transparent"></div>
