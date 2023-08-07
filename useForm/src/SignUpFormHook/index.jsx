@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useController, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yub from "yup";
 import { useEffect } from "react";
@@ -57,13 +57,11 @@ const SignUpFormHook = () => {
           <label htmlFor="firstName" className="cursor-pointer">
             First Name
           </label>
-          <input
-            type="text"
-            {...register("firstName")}
-            name="firstName"
-            className="p-4 rounded-md border border-gray-100 mb-4"
-            id="firstName"
+          <MyInput
+            control={control}
+            name={"firstName"}
             placeholder="Enter Your firstName"
+            id={"firstName"}
           />
           {errors?.firstName?.type === "max" && (
             <div className="text-red-500 text-sm mb-3">
@@ -80,13 +78,11 @@ const SignUpFormHook = () => {
           <label htmlFor="lastName" className="cursor-pointer">
             Last Name
           </label>
-          <input
-            type="text"
-            name="lastName"
-            className="p-4 rounded-md border border-gray-100 mb-4"
-            id="lastName"
-            {...register("lastName")}
+          <MyInput
+            control={control}
+            name={"lastName"}
             placeholder="Enter Your lastName"
+            id={"lastName"}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -99,14 +95,7 @@ const SignUpFormHook = () => {
             placeholder="Enter Your email"
             id={"email"}
           />
-          {/* <input
-            type="text"
-            name="email"
-            className="p-4 rounded-md border border-gray-100 mb-4"
-            id="email"
-            {...register("email")}
-            placeholder="Enter Your email"
-          /> */}
+
           <div className="flex items-start mb-2 flex-col gap-2">
             <input type="checkbox" name="" id="" {...register("showAge")} />
             {watchShowAge && (
@@ -143,20 +132,17 @@ const SignUpFormHook = () => {
   );
 };
 const MyInput = ({ control, ...props }) => {
+  const { field } = useController({
+    control,
+    name: props.name,
+    defaultValue: "",
+  });
+  console.log("🚀 ~ file: index.jsx:151 ~ MyInput ~ field:", field);
   return (
-    <Controller
-      control={control}
-      name={props.name}
-      defaultValue={""}
-      render={({ field }) => {
-        return (
-          <input
-            className="p-4 rounded-md border border-gray-100 mb-4"
-            {...field}
-            {...props}
-          />
-        );
-      }}
+    <input
+      className="p-4 rounded-md border border-gray-100 mb-4"
+      {...field}
+      {...props}
     />
   );
 };
