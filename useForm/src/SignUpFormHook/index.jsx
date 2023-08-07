@@ -1,9 +1,15 @@
 import { useForm } from "react-hook-form";
 const SignUpFormHook = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  console.log("🚀 ~ file: index.jsx:4 ~ SignUpFormHook ~ errors:", errors);
   const onSubmit = (values) => {
     console.log(values);
   };
+
   return (
     <>
       <form
@@ -17,13 +23,27 @@ const SignUpFormHook = () => {
           </label>
           <input
             type="text"
-            defaultValue={"phuc"}
-            {...register("firstName")}
+            {...register("firstName", {
+              required: true,
+              maxLength: 10,
+              minLength: 2,
+              // pattern regex
+            })}
             name="firstName"
             className="p-4 rounded-md border border-gray-100 mb-4"
             id="firstName"
             placeholder="Enter Your firstName"
           />
+          {errors?.firstName?.type === "required" && (
+            <div className="text-red-500 text-sm mb-3">
+              Must be 10 character or less
+            </div>
+          )}
+          {errors?.firstName?.type === "maxLength" && (
+            <div className="text-red-500 text-sm mb-3">
+              Please fill on this field
+            </div>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="lastName" className="cursor-pointer">
