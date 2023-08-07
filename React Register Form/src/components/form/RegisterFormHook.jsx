@@ -1,16 +1,18 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import InputHook from "../Input/InputHook";
+import RadioHook from "../Radio/RadioHook";
 const FormHookStyle = styled.form`
   max-width: 300px;
   margin: 0 auto;
-  .field-username {
+  .field {
     display: flex;
     flex-direction: column;
     label {
       font-weight: 500;
       font-size: 14px;
       margin-bottom: 10px;
+      margin-top: 20px;
     }
     input {
       padding: 14px 15px 15px;
@@ -24,7 +26,7 @@ const FormHookStyle = styled.form`
         transition: all;
       }
     }
-    span {
+    .errors {
       font-weight: 400;
       font-size: 12px;
       color: #e74c3c;
@@ -41,7 +43,7 @@ const RegisterFormHook = () => {
   };
   return (
     <FormHookStyle onSubmit={handleSubmit(onSubmitHandler)}>
-      <div className="field-username">
+      <div className="field">
         <label htmlFor="username" className="cursor-pointer">
           Username
         </label>
@@ -50,8 +52,46 @@ const RegisterFormHook = () => {
           name={"username"}
           placeholder="Enter Your userName"
           id={"username"}
+          type="text"
         />
-        <span>Please enter your username</span>
+        <span className="errors">Please enter your username</span>
+      </div>
+      <div className="field">
+        <label htmlFor="email" className="cursor-pointer">
+          Email Address
+        </label>
+        <InputHook
+          control={control}
+          name={"email"}
+          placeholder="Enter Your email"
+          id={"email"}
+          type="email"
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="password" className="cursor-pointer">
+          Password
+        </label>
+        <InputHook
+          control={control}
+          name={"password"}
+          placeholder="Enter Your password"
+          id={"password"}
+          type="password"
+        />
+      </div>
+      <div className="field">
+        <label className="cursor-pointer">Gender</label>
+        <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3">
+            <RadioHook value="male" name="gender" control={control} />
+            <span className="font-normal text-[#999] text-[14px]">Male</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <RadioHook value="female" name="gender" control={control} />
+            <span className="font-normal text-[#999] text-[14px]">Female</span>
+          </div>
+        </div>
       </div>
       <button
         type="submit"
