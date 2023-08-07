@@ -7,21 +7,17 @@ const schemaValidation = Yub.object({
     .max(5, "Must be 10 character or less"),
 });
 const SignUpFormHook = () => {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, watch } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
   });
-  const { isSubmitting, errors, isValid, isDirty, dirtyFields } = formState;
+  const watchShowAge = watch("showAge", false);
   console.log(
-    "🚀 ~ file: index.jsx:16 ~ SignUpFormHook ~ dirtyFields:",
-    dirtyFields
-  ); //  object  các fields mình đã điền
-  console.log("🚀 ~ file: index.jsx:16 ~ SignUpFormHook ~ isDirty:", isDirty); // fields mình  điền vào
-  console.log("🚀 ~ file: index.jsx:15 ~ SignUpFormHook ~ isValid:", isValid);
-  console.log(
-    "🚀 ~ file: index.jsx:14 ~ SignUpFormHook ~ isSubmitting:",
-    isSubmitting
+    "🚀 ~ file: index.jsx:15 ~ SignUpFormHook ~ watchShowAge:",
+    watchShowAge
   );
+  const { isSubmitting, errors } = formState;
+
   const onSubmit = async (values) => {
     console.log(values);
   };
@@ -81,6 +77,17 @@ const SignUpFormHook = () => {
             {...register("email")}
             placeholder="Enter Your email"
           />
+        </div>
+        <div className="flex items-start mb-2 flex-col gap-2">
+          <input type="checkbox" name="" id="" {...register("showAge")} />
+          {watchShowAge && (
+            <input
+              type="number"
+              name=""
+              placeholder="Please enter your age"
+              id=""
+            />
+          )}
         </div>
         <button
           className="w-full mx-auto max-w-[200px] text-center p-3 border bg-blue-500 text-white rounded-lg border-blue-500"
