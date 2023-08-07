@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.2.0",
     "axios": "^1.4.0",
     "formik": "^2.4.3",
     "prop-types": "^15.8.1",
