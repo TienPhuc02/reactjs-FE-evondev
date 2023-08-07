@@ -1,13 +1,23 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yub from "yup";
+import { useEffect } from "react";
 const schemaValidation = Yub.object({
   firstName: Yub.string()
     .required("Please fill on this field")
     .max(5, "Must be 10 character or less"),
 });
 const SignUpFormHook = () => {
-  const { register, handleSubmit, formState, watch,reset,resetField } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState,
+    watch,
+    reset,
+    resetField,
+    setFocus,
+    setValue,
+  } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
   });
@@ -20,13 +30,20 @@ const SignUpFormHook = () => {
 
   const onSubmit = async (values) => {
     reset({
-      firstName:"",
-      lastName:"",
-      email:""
-    })
-    resetField("firstName")
+      firstName: "",
+      lastName: "",
+      email: "",
+    });
+    resetField("firstName");
   };
-
+  const demoFields = () => {
+    setValue("firstName", "phuc");
+    setValue("lastName", "phuc");
+    setValue("email", "phuc@gmail.com");
+  };
+  useEffect(() => {
+    setFocus("firstName");
+  }, [setFocus]);
   return (
     <>
       <form
@@ -97,7 +114,7 @@ const SignUpFormHook = () => {
         <button
           className="w-full mx-auto max-w-[200px] text-center p-3 border bg-blue-500 text-white rounded-lg border-blue-500"
           disabled={isSubmitting}
-          type="submit"
+          // type="submit"
         >
           {isSubmitting ? (
             <div className="w-5 h-5 border-4 mx-auto border-white rounded-full animate-spin border-t-transparent"></div>
@@ -106,6 +123,14 @@ const SignUpFormHook = () => {
           )}
         </button>
       </form>
+      <div className="max-w-[500px] mx-auto pl-10">
+        <button
+          onClick={demoFields}
+          className="w-full mx-auto max-w-[200px] text-center p-3 border bg-green-500 text-white rounded-lg border-green-500"
+        >
+          Demo Fields
+        </button>
+      </div>
     </>
   );
 };
