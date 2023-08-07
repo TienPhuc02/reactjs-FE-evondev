@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import InputHook from "../Input/InputHook";
 import RadioHook from "../Radio/RadioHook";
+import CheckBoxHook from "../CheckBox/CheckBoxHook";
 const FormHookStyle = styled.form`
   max-width: 300px;
   margin: 0 auto;
@@ -92,6 +93,15 @@ const RegisterFormHook = () => {
             <span className="font-normal text-[#999] text-[14px]">Female</span>
           </div>
         </div>
+      </div>
+      <div className="my-[25px]">
+        <CheckBoxHook
+          control={control}
+          name="term"
+          value="term"
+          id="term"
+          text={"I accept the terms and conditions"}
+        />
       </div>
       <button
         type="submit"
