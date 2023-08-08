@@ -4,16 +4,11 @@ import { useState } from "react";
 const DropdownHook = ({ control, setValue, name, dropDownLabel, data }) => {
   const [label, setLabel] = useState(dropDownLabel);
   const { show, setShow, nodeRef } = useClickOutSide();
-
-  const jobValue = useWatch({
+  useWatch({
     control,
     name: "job",
     defaultValue: "",
   });
-  console.log(
-    "🚀 ~ file: DropdownHook.jsx:9 ~ DropdownHook ~ jobValue:",
-    jobValue
-  );
   const handleClickDropdownItem = (e) => {
     setValue(name, e.target.dataset.value);
     setShow(false);
@@ -46,27 +41,6 @@ const DropdownHook = ({ control, setValue, name, dropDownLabel, data }) => {
               </div>
             );
           })}
-        {/* <div
-          className="p-5 cursor-pointer hover:bg-gray-100"
-          onClick={handleClickDropdownItem}
-          data-value={"Teacher"}
-        >
-          Teacher
-        </div>
-        <div
-          className="p-5 cursor-pointer hover:bg-gray-100"
-          onClick={handleClickDropdownItem}
-          data-value={"Developer"}
-        >
-          Developer
-        </div>
-        <div
-          className="p-5 cursor-pointer hover:bg-gray-100"
-          onClick={handleClickDropdownItem}
-          data-value={"Doctor"}
-        >
-          Doctor
-        </div> */}
       </div>
     </div>
   );

@@ -58,6 +58,9 @@ const schema = yup
         }
       )
       .required("Please Enter Your PassWord"),
+    gender: yup.string().required("Please Enter Your Gender"),
+    job: yup.string().required("Please Enter Your Job"),
+    term: yup.boolean().required("Please Enter Your Job"),
   })
   .required();
 const RegisterFormHook = () => {
@@ -145,19 +148,26 @@ const RegisterFormHook = () => {
             <span className="font-normal text-[#999] text-[14px]">Female</span>
           </div>
         </div>
+        <span className="errors leading-4">{errors?.gender?.message}</span>
       </div>
       <div className="field">
-        <label className="cursor-pointer">You are</label>
+        <label htmlFor="job" className="cursor-pointer">
+          You are
+        </label>
         <DropdownHook
           data={dropdownData}
           control={control}
           dropDownLabel="Please Select"
           setValue={setValue}
           name="job"
+          id="job"
         />
+        <span className="errors leading-4">{errors?.job?.message}</span>
       </div>
       <div className="field">
-        <label className="cursor-pointer">Gender</label>
+        <label htmlFor="term" className="cursor-pointer">
+          Validation
+        </label>
         <CheckBoxHook
           control={control}
           name="term"
@@ -165,6 +175,7 @@ const RegisterFormHook = () => {
           id="term"
           text={"I accept the terms and conditions"}
         />
+        <span className="errors leading-4">{errors?.term?.message}</span>
       </div>
       <button
         type="submit"
