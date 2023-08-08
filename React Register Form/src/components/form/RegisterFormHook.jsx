@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import InputHook from "../Input/InputHook";
 import RadioHook from "../Radio/RadioHook";
 import CheckBoxHook from "../CheckBox/CheckBoxHook";
+import DropdownHook from "../Dropdown/DropdownHook";
 const FormHookStyle = styled.form`
   max-width: 300px;
   margin: 0 auto;
@@ -94,7 +95,12 @@ const RegisterFormHook = () => {
           </div>
         </div>
       </div>
-      <div className="my-[25px]">
+      <div className="field">
+        <label className="cursor-pointer">You are</label>
+        <DropdownHook />
+      </div>
+      <div className="field">
+        <label className="cursor-pointer">Gender</label>
         <CheckBoxHook
           control={control}
           name="term"
