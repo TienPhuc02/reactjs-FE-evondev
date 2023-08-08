@@ -37,6 +37,23 @@ const FormHookStyle = styled.form`
 `;
 const RegisterFormHook = () => {
   const { control, handleSubmit, formStaten, setValue } = useForm();
+  const dropdownData = [
+    {
+      id: 1,
+      value: "Teacher",
+      text: "Teacher",
+    },
+    {
+      id: 2,
+      value: "Developer",
+      text: "Developer",
+    },
+    {
+      id: 3,
+      value: "Doctor",
+      text: "Doctor",
+    },
+  ];
   const onSubmitHandler = (values) => {
     console.log(
       "🚀 ~ file: RegisterFormHook.jsx:37 ~ onSubmit ~ values:",
@@ -97,7 +114,13 @@ const RegisterFormHook = () => {
       </div>
       <div className="field">
         <label className="cursor-pointer">You are</label>
-        <DropdownHook control={control} setValue={setValue} name="job" />
+        <DropdownHook
+          data={dropdownData}
+          control={control}
+          dropDownLabel="Please Select"
+          setValue={setValue}
+          name="job"
+        />
       </div>
       <div className="field">
         <label className="cursor-pointer">Gender</label>
