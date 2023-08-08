@@ -4,6 +4,8 @@ import InputHook from "../Input/InputHook";
 import RadioHook from "../Radio/RadioHook";
 import CheckBoxHook from "../CheckBox/CheckBoxHook";
 import DropdownHook from "../Dropdown/DropdownHook";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 const FormHookStyle = styled.form`
   max-width: 300px;
   margin: 0 auto;
@@ -35,8 +37,38 @@ const FormHookStyle = styled.form`
     }
   }
 `;
+const schema = yup
+  .object({
+    username: yup
+      .string()
+      .required("Please Enter Your UserName")
+      .max(20, "20 characters is max"),
+    email: yup
+      .string()
+      .email("Please Enter Your Email Address")
+      .required("Please Enter Your Email Address"),
+    password: yup
+      .string()
+      .min(8, "Your Password must be at least 8 characters or greater")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        {
+          message:
+            "Your password must have 8 characters, at least one uppercase letter, one lowercase letter, one number and one special character",
+        }
+      )
+      .required("Please Enter Your PassWord"),
+  })
+  .required();
 const RegisterFormHook = () => {
-  const { control, handleSubmit, formStaten, setValue } = useForm();
+  const { control, handleSubmit, formState, setValue } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const { errors } = formState;
+  console.log(
+    "🚀 ~ file: RegisterFormHook.jsx:50 ~ RegisterFormHook ~ errors:",
+    errors
+  );
   const dropdownData = [
     {
       id: 1,
@@ -73,7 +105,7 @@ const RegisterFormHook = () => {
           id={"username"}
           type="text"
         />
-        <span className="errors">Please enter your username</span>
+        <span className="errors">{errors?.username?.message}</span>
       </div>
       <div className="field">
         <label htmlFor="email" className="cursor-pointer">
@@ -86,6 +118,7 @@ const RegisterFormHook = () => {
           id={"email"}
           type="email"
         />
+        <span className="errors">{errors?.email?.message}</span>
       </div>
       <div className="field">
         <label htmlFor="password" className="cursor-pointer">
@@ -98,6 +131,7 @@ const RegisterFormHook = () => {
           id={"password"}
           type="password"
         />
+        <span className="errors leading-4">{errors?.password?.message}</span>
       </div>
       <div className="field">
         <label className="cursor-pointer">Gender</label>
