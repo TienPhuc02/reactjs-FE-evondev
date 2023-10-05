@@ -147,3 +147,5 @@ const MyInput = ({ control, ...props }) => {
   );
 };
 export default SignUpFormHook;
+//formik :https://formik.org/docs/tutorial
+//react-hook-form:https://www.react-hook-form.com/get-started

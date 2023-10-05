@@ -63,37 +63,58 @@ const schema = yup
     term: yup.boolean().required("Please Enter Your Job"),
   })
   .required();
+const dropdownData = [
+  {
+    id: 1,
+    value: "Teacher",
+    text: "Teacher",
+  },
+  {
+    id: 2,
+    value: "Developer",
+    text: "Developer",
+  },
+  {
+    id: 3,
+    value: "Doctor",
+    text: "Doctor",
+  },
+];
 const RegisterFormHook = () => {
-  const { control, handleSubmit, formState, setValue } = useForm({
+  const { control, handleSubmit, formState, setValue, reset } = useForm({
     resolver: yupResolver(schema),
+    mode: "onChange",
   });
-  const { errors } = formState;
+  const { errors, isValid, isSubmitting, isSubmitSuccessful } = formState;
+  console.log(
+    "🚀 ~ file: RegisterFormHook.jsx:89 ~ RegisterFormHook ~ isSubmitting:",
+    isSubmitting
+  );
   console.log(
     "🚀 ~ file: RegisterFormHook.jsx:50 ~ RegisterFormHook ~ errors:",
     errors
   );
-  const dropdownData = [
-    {
-      id: 1,
-      value: "Teacher",
-      text: "Teacher",
-    },
-    {
-      id: 2,
-      value: "Developer",
-      text: "Developer",
-    },
-    {
-      id: 3,
-      value: "Doctor",
-      text: "Doctor",
-    },
-  ];
+
   const onSubmitHandler = (values) => {
-    console.log(
-      "🚀 ~ file: RegisterFormHook.jsx:37 ~ onSubmit ~ values:",
-      values
-    );
+    if (isValid) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(
+            "🚀 ~ file: RegisterFormHook.jsx:37 ~ onSubmit ~ values:",
+            values
+          );
+          resolve();
+          reset({
+            username: "",
+            email: "",
+            password: "",
+            gender: "",
+            job: "", // Reset the dropdown value
+            term: false, // Reset the checkbox value
+          });
+        }, 3000);
+      });
+    }
   };
   return (
     <FormHookStyle onSubmit={handleSubmit(onSubmitHandler)}>
@@ -140,7 +161,12 @@ const RegisterFormHook = () => {
         <label className="cursor-pointer">Gender</label>
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-3">
-            <RadioHook value="male" name="gender" control={control} />
+            <RadioHook
+              value="male"
+              name="gender"
+              control={control}
+              
+            />
             <span className="font-normal text-[#999] text-[14px]">Male</span>
           </div>
           <div className="flex items-center gap-3">
@@ -157,7 +183,9 @@ const RegisterFormHook = () => {
         <DropdownHook
           data={dropdownData}
           control={control}
-          dropDownLabel="Please Select"
+          dropDownLabel={
+            isSubmitSuccessful ? "Please Select " : "Please Select"
+          }
           setValue={setValue}
           name="job"
           id="job"
@@ -177,12 +205,21 @@ const RegisterFormHook = () => {
         />
         <span className="errors leading-4">{errors?.term?.message}</span>
       </div>
-      <button
-        type="submit"
-        className="button mt-2 h-[50px] flex items-center justify-center rounded-[10px] w-full border bg-blue-500 text-white font-bold text-[16px] cursor-pointer "
-      >
-        Submit
-      </button>
+      {isSubmitting ? (
+        <button
+          type="submit"
+          className="button mt-2 h-[50px] flex items-center justify-center rounded-[10px] w-full border bg-blue-500 opacity-40 text-white font-bold text-[16px] cursor-pointer "
+        >
+          <div className="w-5 h-5 border-4 border-white-500 rounded-full animate-spin border-t-transparent bg-blue-500 "></div>
+        </button>
+      ) : (
+        <button
+          type="submit"
+          className="button mt-2 h-[50px] flex items-center justify-center rounded-[10px] w-full border bg-blue-500 text-white font-bold text-[16px] cursor-pointer "
+        >
+          Submit
+        </button>
+      )}
     </FormHookStyle>
   );
 };

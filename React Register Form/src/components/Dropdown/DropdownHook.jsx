@@ -1,6 +1,6 @@
 import { useWatch } from "react-hook-form";
 import useClickOutSide from "../../hooks/useClickOutSide";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const DropdownHook = ({ control, setValue, name, dropDownLabel, data }) => {
   const [label, setLabel] = useState(dropDownLabel);
   const { show, setShow, nodeRef } = useClickOutSide();
@@ -14,6 +14,9 @@ const DropdownHook = ({ control, setValue, name, dropDownLabel, data }) => {
     setShow(false);
     setLabel(e.target.textContent);
   };
+  useEffect(() => {
+    if (dropDownLabel) setLabel(dropDownLabel);
+  }, [dropDownLabel]);
   return (
     <div className="relative" ref={nodeRef}>
       <div

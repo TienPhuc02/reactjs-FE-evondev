@@ -20,8 +20,8 @@ const App = () => {
   return (
     <AppStyle>
       <h1>Register Form</h1>
-      <RegisterFormHook />
-      {/* <RegisterFormik/> */}
+      {/* <RegisterFormHook /> */}
+      <RegisterFormik />
     </AppStyle>
   );
 };
